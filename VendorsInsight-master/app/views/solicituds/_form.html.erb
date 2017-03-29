@@ -1,0 +1,149 @@
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+	  <a class="navbar-brand"href="../inicio_vendedor"><i class="fa fa-reply"></i></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+           
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a <%= link_to "Salir", :controller => "login", :action => "destroy"%></a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <hr>
+        <%= form_for(@solicitud) do |f| %>
+  <% if @solicitud.errors.any? %>
+          <div id="error_explanation">
+      <h2><%= pluralize(@solicitud.errors.count, "error") %> Revisa los campos</h2>
+
+      <ul>
+      <% @solicitud.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+     <div class="actions">
+      <%= f.label :Adjunto %>
+         <% if session[:archivo_id] != nil %>
+         <%= f.label :Archivo_adjuntado %>
+         <% end %>
+         <br>
+      <%= link_to 'Adjuntar', new_attachment_path, class: 'btn rechazar' %>
+  </div>
+    
+    <div class="field">
+    <%= f.label :Cliente %><br>
+    <%= f.text_field :cliente, class: 'text_field'%>
+  </div>
+  <div class="field">
+    <%= f.label :Referencia %><a> (opcional)</a><br>
+    <%= f.text_field :referencia, class: 'text_field'%>
+  </div>
+  <div class="select">
+    <%= f.label :Línea %><a>*</a><br>
+    <%= f.select :linea,
+[['Seleccione una Opción',''],
+['Dama','Dama'],['Niña','Niña'],['Niño','Niño'],['Hombre','Hombre']] %>
+  </div><br>
+  <div class="select">
+      <%= f.label :Tipo_tela%><a> *</a><br> 
+      <%= f.collection_select(:tipo, Tela.all, :tipo_tela, :tipo_tela) %>
+  </div><br>
+  <div class="select">
+    <%= f.label :Tipo_pantalón %><a>*</a><br>
+    <%= f.select :tipo_pantalon,
+[['Seleccione una Opción',''],
+    ['Vaquero','Vaquero'],['Jeggins','Jeggins'],['2Botones','2Botones'],['3Botones','3Botones'],['Short','Short'],['Torero','Torero']] %>
+  </div><br>
+  <div class="field">
+    <%= f.label :set_tallas1, class: 'check_box' %><br>
+      <div class = "onoffswitch">
+    <%= f.check_box :set_tallas, class: 'onoffswitch-checkbox'%>
+      <label class="onoffswitch-label" for="solicitud_set_tallas">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+      </div>
+  </div>
+  <div class="field">
+    <%= f.label :contramuestra, class: 'check_box'  %><br>
+    <div class = "onoffswitch">
+        <%= f.check_box :contramuestra, class: 'onoffswitch-checkbox'%>
+      <label class="onoffswitch-label" for="solicitud_contramuestra">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+      </div>
+  </div>
+  
+  <div class="select">
+    <%= f.label :Talla %><br>
+    <%= f.select :talla,
+[['Seleccione una talla',''],
+['00','00'],['02','02'],['04','04'],['06','06'],['08','08'],['10','10'],['12','12'],['14','14'],['16','16'],['18','18'],['20','20'],['22','22'],['24','24'],['26','26'],['28','28'],['30','30'],['32','32'],['34','34'],['36','36'],['38','38'],['40','40'],['42','42'],['44','44']] %>
+  </div><br>
+  <div class="field">
+    <%= f.label :muestra_tela, class: 'check_box' %><br>
+    <div class = "onoffswitch">
+        <%= f.check_box :muestra_tela, class: 'onoffswitch-checkbox'%>
+      <label class="onoffswitch-label" for="solicitud_muestra_tela">
+        <span class="onoffswitch-inner"></span>
+        <span class="onoffswitch-switch"></span>
+    </label>
+      </div>
+  </div>
+  <div class="field">
+    <%= f.label :nombre_tela%><br>
+    <%= f.text_field :nombre_tela, class: 'text_field'%>
+  </div>    
+  <div class="field">
+    <%= f.label :Cantidad %><a>*</a><br>
+    <%= f.number_field :cantidad, class: 'text_field'%>
+  </div>
+  
+  <div class="field">
+    <%= f.label :Observaciones %><br>
+    <%= f.text_area :especificacion, class: 'text_area'%>
+  </div>
+  <div class="actions">
+    <%= f.submit "Enviar Solicitud", class: "btn btn-lg btn-primary" %>
+  </div>
+  <% end %>                         
+          <a>* campos obligatorios</a>
+        </p>                         
+      </div>       
+    </div> <!-- /container -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
